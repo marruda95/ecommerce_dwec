@@ -42,7 +42,7 @@
     </section>
     <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Category Name </h2>
+                <h2 class="fw-bolder mb-4">Category</h2>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
                     <div class="col mb-5" v-for="product in products" :key="product.id">
                         <div class="card h-100">
