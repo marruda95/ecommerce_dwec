@@ -1,22 +1,26 @@
 <template>
     <div class="container" >
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody >
-                <tr v-for="product in cartProducts" :key="product.id">
-                    <th>{{findProductsCart.id}}</th>
-                    <th>{{product.quantity}}</th>
-                    <th>{{findProductsCart.price}}</th>
-                    <th>{{findProductsCart.name}}</th>
-                </tr>
-            </tbody>
-        </table>
+    
+        <section>
+            <table class="customTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="product in products" :key="product.id">
+                        <td>{{product.name}}</td>
+                        <td>1</td>
+                        <td>${{product.price}}</td>
+                        <td><button @click="deleteProduct(product)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </div>
 </template>
 
@@ -26,7 +30,6 @@ export default {
 name: 'Cart',
 data(){
     return {
-      cartProducts: [],
       products: []
     }
 },
@@ -35,23 +38,49 @@ created(){
     .then(response => response.json())
       .then(data =>  {
         console.log(`data ${data}`)
-        this.cartProducts = data
-        } ),
-
-    fetch(url('/products'))
-    .then(response => response.json())
-      .then(data =>  {
-        console.log(`data ${data}`)
         this.products = data
-        } )
+        } 
+    )   
 },
-computed: {
-    findProductsCart(){
-        return this.products.filter(product => product.id === this.cartProducts.productId)[0]
-    }
-
-}
-
+methods: {
+    deleteProduct(product) {
+        let data = {id: product.id}
+        fetch(url(`/cart/`+product.id), {
+          method: 'DELETE',
+          headers: {
+            'Content-type':'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+      },
+      reload(){
+            location.reload();
+        }
+},
 
 }
 </script>
+
+<style>
+    table.customTable {
+        width: 100%;
+        background-color: #FFFFFF;
+        border-collapse: collapse;
+        border-width: 0px;
+        border-color: #F8F8F8;
+        border-style: solid;
+        color: #000000;
+        text-align: left;
+    }
+
+    table.customTable td, table.customTable th {
+        border-width: 0px;
+        border-color: #F8F8F8;
+        border-style: solid;
+        padding: 5px;
+    }
+
+    table.customTable thead {
+        background-color: #D4D4D4;
+    }
+</style>

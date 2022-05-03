@@ -11,6 +11,7 @@
             <div class="text-center"><b-button variant="primary" :to="'/product/'+product.id">View</b-button></div>
             <div class="text-center"><b-button variant="primary" @click="addProduct(product.id)">Add to Cart</b-button></div>
         </div>
+        <b-alert variant="success" v-if="addCorrect" show> Success </b-alert>
     </div>
 </template>
 
@@ -19,7 +20,11 @@ export default {
     props: ['product'],
     methods: {
         addProduct(){
-            this.$emit('add-product', this.product.id)
+            this.$emit('add-product', this.product)
+            
+        },
+        addCorrect(){
+            this.$emit('add-correct')
         }
     
     }
